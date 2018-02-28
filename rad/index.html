@@ -35,7 +35,7 @@
 
                     result = (radheight / 2) + (radwidth * radwidth / (8 * radheight));
 
-                    $("#radresult").html("Radius = <strong>" +result.toFixed(2) + " mm</strong>");
+                    $("#radresult").html("Radius = <strong>" +result.toFixed(2) + " mm</strong> (diameter: " + (result*2).toFixed(2)+")");
                     $("#radresult").removeClass("alert-danger").addClass("alert-success");
                 } else {
                     $("#radresult").removeClass("alert-success").addClass("alert-danger");

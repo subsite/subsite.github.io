@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Bootstrap 101 Template</title>
+    <title>RadGauge Companion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -10,7 +10,7 @@
 
 </head>
 
-<body style="background-color: #ededed;">
+<body>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -20,6 +20,9 @@
 
     <script>
         $(function () {
+            var defaultResult = "Add numeric measurement to calculate";
+            $("#radresult").html(defaultResult);
+
             $(document).on("change keyup click focus blur", "form", function () {
                 var radvalue = $("#radvalue").val();
                 var radoffset = $('input[name=radoffset]:checked').val();
@@ -32,29 +35,33 @@
 
                     result = (radheight / 2) + (radwidth * radwidth / (8 * radheight));
 
-                    $("#radresult").html(result.toFixed(2) + " mm");
+                    $("#radresult").html("Radius = <strong>" +result.toFixed(2) + " mm</strong>");
+                    $("#radresult").removeClass("alert-danger").addClass("alert-success");
+                } else {
+                    $("#radresult").removeClass("alert-success").addClass("alert-danger");
+                    $("#radresult").html(defaultResult);
                 }
             });
         })
     </script>
 
 
-    <div id="container" class="container rounded border mx-auto " style="max-width: 550px; margin-top: 20px;">
+    <div id="container" class="container rounded border mx-auto " style="max-width: 500px; margin-top: 20px;">
 
-        <img src="rad_rendered.png" style="width: 100%">
+        <div class="mb-2 pt-2"><img src="rad_rendered.png" style="max-width: 100%"></div>
         <form class="form-horizontal mb-4">
             <fieldset>
 
                 <!-- Form Name -->
-                <legend>Rad Gauge Companion</legend>
+                <legend>RadGauge Companion</legend>
 
                 <!-- Multiple Radios -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="radoffset">Offset</label>
+                  
                     <div class="col-md-4">
                         <div class="form-check ">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-0" value="20" checked="checked">
-                            <label class="form-check-label text-nowrap" for="radoffset-0">20 mm (Rad Default)</label>
+                            <label class="form-check-label text-nowrap" for="radoffset-0">20 mm offset (RadGauge Default)</label>
 
 
                         </div>
@@ -71,9 +78,8 @@
 
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="radvalue">Measurement</label>
                     <div class="col-md-4">
-                        <input id="radvalue" name="radvalue" placeholder="Caliper value" class="form-control input-md" type="text">
+                        <input id="radvalue" name="radvalue" placeholder="Measured value" class="form-control" type="number">
 
                     </div>
                 </div>
@@ -82,9 +88,9 @@
             </fieldset>
         </form>
 
-        <div id="radresult" class="alert alert-danger" role="alert">
-            Add your measurement to get the result
-        </div>
+        <div id="radresult" class="alert alert-danger" role="alert"></div>
+
+        <div ><small class="text-muted">&copy; <a href="https://www.subsite.fi/en">subSite</a> 2018</small> </div>
 
     </div>
 </body>

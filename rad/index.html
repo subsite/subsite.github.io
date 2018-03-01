@@ -11,6 +11,10 @@
         legend {
             font-size: 1.2em;
         }
+        input[type='number'] {
+            width: 120px;
+        }
+   
     </style>
 
 </head>
@@ -36,12 +40,17 @@
             $(document).on("change keyup click focus blur", "form", function () {
                 var radvalue = $("#radvalue").val();
                 var radoffset = $('input[name=radoffset]:checked').val();
+                if (radoffset == 'custom') {
+                    radoffset = $("#radoffset-custom").val();
+                }
                 var radwidth = 60;
                 var radheight = Math.abs(radoffset - radvalue);
 
+                console.log("radvalue:"+radvalue+" radoffset:"+radoffset+" radheight:"+radheight);
+
                 var result;
 
-                if ($.isNumeric(radvalue)) {
+                if ($.isNumeric(radvalue) && $.isNumeric(radheight)) {
 
                     result = (radheight / 2) + (radwidth * radwidth / (8 * radheight));
 
@@ -58,15 +67,10 @@
 
     <div id="container" class="container rounded border mx-auto " style="max-width: 450px; margin-top: 20px;">
         <h1 class="h4 pt-2">RadGauge Companion Calculator</h1>
-        <div class="mb-2 pt-2"><img src="rad_rendered2.png" class="mw-100"></div>
+        <div class="mb-2 pt-2"><img src="img/rad_rendered2.png" class="mw-100"></div>
 
         <form class="form-horizontal mb-4 w-100">
             <fieldset>
-
-
-
-
-
 
 
                 <div class="form-group">
@@ -74,7 +78,7 @@
                     <div class="col-md-4">
                         <div class="form-check ">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-0" value="20" checked="checked">
-                            <label class="form-check-label text-nowrap" for="radoffset-0">20 mm offset <span class="text-muted">(RadGauge Default)</span></label>
+                            <label class="form-check-label text-nowrap" for="radoffset-0">20 mm <span class="text-muted">(RadGauge Default)</span></label>
 
 
                         </div>
@@ -86,7 +90,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-2" value="custom">
 
-                            <input id="radoffset-custom" name="radoffset-custom" class="form-control" style="width: 120px;" type="number" placeholder="Custom">
+                            <input id="radoffset-custom" name="radoffset-custom" class="form-control" type="number" placeholder="Custom">
 
 
                         </div>
@@ -101,10 +105,10 @@
                     <legend>Enter measured value</legend>
                     <div class="d-flex flex-row h-100 align-items-center">
                         <div>
-                            <input id="radvalue" name="radvalue" placeholder="Value (mm)" class="form-control w-60" type="number">
+                            <input id="radvalue" name="radvalue" placeholder="Value (mm)" class="form-control" type="number">
                         </div>
-                        <div class=" w-40">
-                            <div id="radresult" class="alert alert-danger" role="alert"></div>
+                        <div class="pl-3">
+                            <div id="radresult" class="alert alert-danger mb-0" role="alert"></div>
                         </div>
 
                     </div>
@@ -149,6 +153,9 @@
 
         <h5>Support and feedback</h5>
         <p>You post any questions or comments to the <a href="https://www.thingiverse.com/thing:2811444">RadGauge Thingiverse page</a></p>
+
+        <h5>Beer</h5>
+        <p>I like beer. If you'd like to buy me one, just open up <a href="https://www.thingiverse.com/SubSite/about">my Thingiverse profile</a> and hit <em>Tip Designer</em>!</p>
 
 
         <div><small class="text-muted">&copy; <a href="https://www.subsite.fi/en">subSite</a> 2018</small> </div>

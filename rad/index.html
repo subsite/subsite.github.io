@@ -3,25 +3,35 @@
 
 <head>
     <title>RadGauge Companion</title>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <style>
+        legend {
+            font-size: 1.2em;
+        }
+    </style>
 
 </head>
 
 <body>
     <script src="assets/jquery-3.3.1.min.js"></script>
     <script src="assets/bootstrap.bundle.min.js"></script>
-    <script src="assets/garlic.min.js""></script>
+    <script src="assets/garlic.min.js"></script>
     <script>
         $(function () {
 
-            
+
             $("form").garlic(); // Auto-persist form state
 
             var defaultResult = "Result";
             $("#radresult").html(defaultResult);
+
+            $(document).on("focus", "#radoffset-custom", function () {
+                $("#radoffset-2").prop('checked', true);
+            });
+
 
             $(document).on("change keyup click focus blur", "form", function () {
                 var radvalue = $("#radvalue").val();
@@ -35,7 +45,7 @@
 
                     result = (radheight / 2) + (radwidth * radwidth / (8 * radheight));
 
-                    $("#radresult").html("R = <strong>" +result.toFixed(2) + " mm</strong>");
+                    $("#radresult").html("R = <strong>" + result.toFixed(2) + " mm</strong>");
                     $("#radresult").removeClass("alert-danger").addClass("alert-success");
                 } else {
                     $("#radresult").removeClass("alert-success").addClass("alert-danger");
@@ -47,52 +57,54 @@
 
 
     <div id="container" class="container rounded border mx-auto " style="max-width: 450px; margin-top: 20px;">
-
+        <h1 class="h4 pt-2">RadGauge Companion Calculator</h1>
         <div class="mb-2 pt-2"><img src="rad_rendered2.png" class="mw-100"></div>
+
         <form class="form-horizontal mb-4 w-100">
             <fieldset>
 
-                <!-- Form Name -->
-                <legend>RadGauge Companion Calculator</legend>
 
-                <!-- Multiple Radios -->
+
+
+
+
+
                 <div class="form-group">
-                  
+                    <legend>Height offset</legend>
                     <div class="col-md-4">
                         <div class="form-check ">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-0" value="20" checked="checked">
-                            <label class="form-check-label text-nowrap" for="radoffset-0">20 mm offset (RadGauge Default)</label>
+                            <label class="form-check-label text-nowrap" for="radoffset-0">20 mm offset <span class="text-muted">(RadGauge Default)</span></label>
 
 
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-1" value="0">
-                            <label class="form-check-label text-nowrap" for="radoffset-1"> 0 (Zeroed caliper)
+                            <label class="form-check-label text-nowrap" for="radoffset-1"> 0 <span class="text-muted">(Zeroed caliper)</span>
                                 </label>
                         </div>
-                        <div class="form-check flex-row align-items-center">
-                                <input class="form-check-input" type="radio" name="radoffset" id="radoffset-2" value="custom">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="radoffset" id="radoffset-2" value="custom">
+
+                            <input id="radoffset-custom" name="radoffset-custom" class="form-control" style="width: 120px;" type="number" placeholder="Custom">
 
 
-                                <label class="form-check-label text-nowrap" for="radoffset-2">
-                                    <input id="radoffset-custom" name="radoffset-custom" class="form-control" style="width: 120px;" type="number" placeholder="Custom">
-                                </label>
-                               
-                            </div>
+                        </div>
                     </div>
 
 
 
                 </div>
 
-                <!-- Text input-->
+
                 <div class="form-group ">
-                    <div class="d-flex flex-row align-items-center">
+                    <legend>Enter measured value</legend>
+                    <div class="d-flex flex-row h-100 align-items-center">
                         <div>
                             <input id="radvalue" name="radvalue" placeholder="Value (mm)" class="form-control w-60" type="number">
                         </div>
                         <div class=" w-40">
-                              <div id="radresult" class="alert alert-danger" role="alert"></div>
+                            <div id="radresult" class="alert alert-danger" role="alert"></div>
                         </div>
 
                     </div>
@@ -102,13 +114,49 @@
             </fieldset>
         </form>
 
-        
-        <div class="text-muted">This is a companion app for the RadGauge radius gauge. STL-file for printing can be found on thingiverse</div>
-        
 
-        <div ><small class="text-muted">&copy; <a href="https://www.subsite.fi/en">subSite</a> 2018</small> </div>
+
 
     </div>
+
+    <div class="container">
+        <h4>About</h4>
+        <p>This is a companion app for the 3D-printable RadGauge radius gauge. STL-file for printing can be found on <a href="https://www.thingiverse.com/thing:2811444">Thingiverse</a>.
+            It can measure radii down to around 30 mm and up to infinity, but accuracy will suffer for extreme values. For
+            small radii, it's generally better to use something like <a href="https://www.thingiverse.com/thing:2698825">this (16-30 mm)</a>            or <a href="https://www.thingiverse.com/thing:1921128">this (2-14 mm)</a></p>
+
+        <h4>Instructions</h4>
+        <p>The RadGauge is attached to the end of your caliper. The depth probe is then used to measure the height difference
+            between the two points and the probe. The RadGauge fits calipers roughly 16 mm wide x 5 mm thick.</p>
+
+
+        <h5>Measuring</h5>
+        <p>Measure the radius by putting the RadGauge firmly against the curved surface, and extend the depth probe until it touches. Make sure the caliper base touches the bottom of the slot.
+            Enter the measured value (in millimeters) into the calulator. It doen't matter if it's an inner or outer curve, the calculator works either way.</p>
+
+        <h5>Fine tuning</h5>
+        <p>The 20 mm offset will probably not be exactly 20 mm when it comes out of your printer. When measuring large radii
+            (some furniture, for example), a small error will make a big difference.</p>
+
+        <p><strong>Method 1, custom offset:</strong> Check the error by measuring against a flat suface. Take this value (I get
+            19.52 from my first print) and enter it into the "Custom" height offset field. The calculations will now be compensated
+            for this value. </p>
+
+        <p><strong>Method 2, zeroing a digital caliper:</strong> Measure againt a flat surface and press the Zero button. Set Offset to 0 when using the calculator.</p>
+
+        <h5>Manual calculation</h5>
+        <p>The formula for calculating the radius from a circular arc or segment is <strong><em>R = (H/2)+(W²/(8*H))</em></strong> where R = radius, H = height and W = width. When using the RadGauge, eithe zero your caliper, or use <em>H = 20-H</em>. Width is 60 mm, so W² = <em>360</em></p>
+
+        <h5>Support and feedback</h5>
+        <p>You post any questions or comments to the <a href="https://www.thingiverse.com/thing:2811444">RadGauge Thingiverse page</a></p>
+
+
+        <div><small class="text-muted">&copy; <a href="https://www.subsite.fi/en">subSite</a> 2018</small> </div>
+    </div>
+
+
+    
+
 </body>
 
 </html>

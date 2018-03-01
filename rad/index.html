@@ -3,24 +3,20 @@
 
 <head>
     <title>RadGauge Companion</title>
+    <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
 
 </head>
 
 <body>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
+    <script src="assets/jquery-3.3.1.min.js"></script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="assets/jquery.remember-state.pack.js"></script>
     <script>
         $(function () {
-            var defaultResult = "Add numeric measurement to calculate";
+            var defaultResult = "Result";
             $("#radresult").html(defaultResult);
 
             $(document).on("change keyup click focus blur", "form", function () {
@@ -35,7 +31,7 @@
 
                     result = (radheight / 2) + (radwidth * radwidth / (8 * radheight));
 
-                    $("#radresult").html("Radius = <strong>" +result.toFixed(2) + " mm</strong> (diameter: " + (result*2).toFixed(2)+")");
+                    $("#radresult").html("R = <strong>" +result.toFixed(2) + " mm</strong>");
                     $("#radresult").removeClass("alert-danger").addClass("alert-success");
                 } else {
                     $("#radresult").removeClass("alert-success").addClass("alert-danger");
@@ -46,14 +42,14 @@
     </script>
 
 
-    <div id="container" class="container rounded border mx-auto " style="max-width: 500px; margin-top: 20px;">
+    <div id="container" class="container rounded border mx-auto " style="max-width: 450px; margin-top: 20px;">
 
-        <div class="mb-2 pt-2"><img src="rad_rendered.png" style="max-width: 100%"></div>
-        <form class="form-horizontal mb-4">
+        <div class="mb-2 pt-2"><img src="rad_rendered2.png" class="mw-100"></div>
+        <form class="form-horizontal mb-4 w-100">
             <fieldset>
 
                 <!-- Form Name -->
-                <legend>RadGauge Companion</legend>
+                <legend>RadGauge Companion Calculator</legend>
 
                 <!-- Multiple Radios -->
                 <div class="form-group">
@@ -67,9 +63,16 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-1" value="0">
-                            <label class="form-check-label text-nowrap" for="radoffset-1"> 0 (Caliper zeroed)
+                            <label class="form-check-label text-nowrap" for="radoffset-1"> 0 (Zeroed caliper)
                                 </label>
                         </div>
+                        <div class="form-check flex-row align-items-center">
+                                <input class="form-check-input" type="radio" name="radoffset" id="radoffset-2" value="0">
+                                <label class="form-check-label text-nowrap" for="radoffset-1">
+                                    <input id="radoffset-custom" class="form-control" style="width: 120px;" type="number" placeholder="Custom">
+                                </label>
+                               
+                            </div>
                     </div>
 
 
@@ -77,9 +80,14 @@
                 </div>
 
                 <!-- Text input-->
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <input id="radvalue" name="radvalue" placeholder="Measured value" class="form-control" type="number">
+                <div class="form-group ">
+                    <div class="d-flex flex-row align-items-center">
+                        <div>
+                            <input id="radvalue" name="radvalue" placeholder="Value (mm)" class="form-control w-60" type="number">
+                        </div>
+                        <div class=" w-40">
+                              <div id="radresult" class="alert alert-danger" role="alert"></div>
+                        </div>
 
                     </div>
                 </div>
@@ -88,7 +96,9 @@
             </fieldset>
         </form>
 
-        <div id="radresult" class="alert alert-danger" role="alert"></div>
+        
+        <div class="text-muted">This is a companion app for the RadGauge radius gauge. STL-file for printing can be found on thingiverse</div>
+        
 
         <div ><small class="text-muted">&copy; <a href="https://www.subsite.fi/en">subSite</a> 2018</small> </div>
 

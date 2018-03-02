@@ -12,7 +12,10 @@
             font-size: 1.2em;
         }
         input[type='number'] {
-            width: 120px;
+            width: 160px;
+        }
+        label {
+            padding-left: 10px;
         }
    
     </style>
@@ -23,6 +26,7 @@
     <script src="assets/jquery-3.3.1.min.js"></script>
     <script src="assets/bootstrap.bundle.min.js"></script>
     <script src="assets/garlic.min.js"></script>
+    <!--<script src="assets/jquery.text-select.js"></script>-->
     <script>
         $(function () {
 
@@ -54,22 +58,31 @@
 
                     result = (radheight / 2) + (radwidth * radwidth / (8 * radheight));
 
-                    $("#radresult").html("R = <strong>" + result.toFixed(2) + " mm</strong>");
+                    $("#radresult").html('R = <strong id="result-value">' + result.toFixed(2) + "</strong> mm");
                     $("#radresult").removeClass("alert-danger").addClass("alert-success");
                 } else {
                     $("#radresult").removeClass("alert-success").addClass("alert-danger");
+                    
                     $("#radresult").html(defaultResult);
                 }
             });
+
+            /*
+            $(document).on("click", "#radresult", function () {
+                //console.log("select-text:"+$("#result-value").html());
+                $("#radresult").selectText();
+            });
+            */
+            
         })
     </script>
 
 
-    <div id="container" class="container rounded border mx-auto " style="max-width: 450px; margin-top: 20px;">
+    <div id="container" class="container rounded border mx-auto mb-4" style="max-width: 450px; margin-top: 20px;">
         <h1 class="h4 pt-2">RadGauge Companion Calculator</h1>
         <div class="mb-2 pt-2"><img src="img/rad_rendered2.png" class="mw-100"></div>
 
-        <form class="form-horizontal mb-4 w-100">
+        <form class="form-horizontal mb-2 w-100">
             <fieldset>
 
 
@@ -90,7 +103,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="radoffset" id="radoffset-2" value="custom">
 
-                            <input id="radoffset-custom" name="radoffset-custom" class="form-control" type="number" placeholder="Custom">
+                            <label><input id="radoffset-custom" name="radoffset-custom" class="form-control" type="number" step="0.01" placeholder="Custom (mm)"></label>
 
 
                         </div>
@@ -105,7 +118,7 @@
                     <legend>Enter measured value</legend>
                     <div class="d-flex flex-row h-100 align-items-center">
                         <div>
-                            <input id="radvalue" name="radvalue" placeholder="Value (mm)" class="form-control" type="number">
+                            <input id="radvalue" name="radvalue" placeholder="Value (mm)" class="form-control" type="number" step="0.01">
                         </div>
                         <div class="pl-3">
                             <div id="radresult" class="alert alert-danger mb-0" role="alert"></div>
@@ -127,20 +140,21 @@
         <h4>About</h4>
         <p>This is a companion app for the 3D-printable RadGauge radius gauge. STL-file for printing can be found on <a href="https://www.thingiverse.com/thing:2811444">Thingiverse</a>.
             It can measure radii down to around 40 mm and up to infinity, but accuracy will suffer for extreme values. For
-            small radii, it's generally better to use something like <a href="https://www.thingiverse.com/thing:2698825">this (16-30 mm)</a>            or <a href="https://www.thingiverse.com/thing:1921128">this (2-14 mm)</a></p>
+            small radii, it's generally better to use something like <a href="https://www.thingiverse.com/thing:2698825">this (16-30 mm)</a> or <a href="https://www.thingiverse.com/thing:1921128">this (2-14 mm)</a></p>
+        <p><em>Disclaimer:</em> The printed model may not be accurate, and some bug in this calculator might produce erroneous result values. Please report any errors, but keep in mind that you use this tool at your own risk.</p>
 
         <h4>Instructions</h4>
         <p>The RadGauge is attached to the end of your caliper. The depth probe is then used to measure the height difference
             between the two points and the probe. The RadGauge fits calipers roughly 16 mm wide x 5 mm thick.</p>
 
 
-        <h5>Measuring</h5>
+        <h4>Measuring</h5>
         <p>Measure the radius by putting the RadGauge firmly against the curved surface, and extend the depth probe until it touches. Make sure the caliper base touches the bottom of the slot.
             Enter the measured value (in millimeters) into the calulator. It doen't matter if it's an inner or outer curve, the calculator works either way.</p>
 
-        <h5>Fine tuning</h5>
+        <h4>Fine tuning</h5>
         <p>The 20 mm offset will probably not be exactly 20 mm when it comes out of your printer. When measuring large radii
-            (some furniture, for example), a small error will make a big difference.</p>
+            (some furniture, for example), a small error will make a big difference. The tip of depth probe will most likely never be exactly centered, so you will not get perfect accuracy with this tool. You can, however, do some fine tuning to get pretty good results.</p>
 
         <p><strong>Method 1, custom offset:</strong> Check the error by measuring against a flat suface. Take this value (I get
             19.52 from my first print) and enter it into the "Custom" height offset field. The calculations will now be compensated
@@ -148,17 +162,23 @@
 
         <p><strong>Method 2, zeroing a digital caliper:</strong> Measure againt a flat surface and press the Zero button. Set Offset to 0 when using the calculator.</p>
 
-        <h5>Manual calculation</h5>
-        <p>The formula for calculating the radius from a circular arc or segment is <strong><em>R = (H/2)+(W²/(8*H))</em></strong> where R = radius, H = height and W = width. When using the RadGauge, eithe zero your caliper, or use <em>H = 20-H</em>. Width is 60 mm, so W² = <em>360</em></p>
+        <h4>Manual calculation</h5>
+        <p>The formula for calculating the radius from a circular arc or segment is <strong><em>R = H/2+W²/(8*H)</em></strong> where R = radius, H = height and W = width. When using the RadGauge, eithe zero your caliper, or use <em>H = abs(20-H)</em>. Width is 60 mm</p>
 
-        <h5>Support and feedback</h5>
-        <p>You post any questions or comments to the <a href="https://www.thingiverse.com/thing:2811444">RadGauge Thingiverse page</a></p>
+        <h4>Support and feedback</h5>
+        <p>You may post any questions, comments or error reports to the <a href="https://www.thingiverse.com/thing:2811444">RadGauge Thingiverse page</a></p>
 
-        <h5>Beer</h5>
+        <h4>Beer</h5>
         <p>I like beer. If you'd like to buy me one, just open up <a href="https://www.thingiverse.com/SubSite/about">my Thingiverse profile</a> and hit <em>Tip Designer</em>!</p>
 
-
-        <div><small class="text-muted">&copy; <a href="https://www.subsite.fi/en">subSite</a> 2018</small> </div>
+        <hr>
+        <div>
+            <small class="text-muted">
+                <p>&copy; Fredrik Welander &mdash; <a href="https://www.subsite.fi/en">subSite</a> 2018</p>
+                <p>The RadGauge 3D model is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons - Attribution - Non-Commercial - Share Alike license</a>. </p>
+            </small> 
+            
+        </div>
     </div>
 
 
